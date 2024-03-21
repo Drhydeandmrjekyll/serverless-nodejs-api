@@ -28,7 +28,7 @@ app.get("/path", (req, res, next) => {
 });
 
 app.get("/leads", async (req, res, next) => {
-  const results = await crud.getLead()
+  const results = await crud.listLeads()
   return res.status(200).json({
     results: results,
   });
