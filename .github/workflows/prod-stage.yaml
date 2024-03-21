@@ -1,14 +1,14 @@
 name: Deploy Production App
 
 on:
-  # push:
-  #   branches: [ main ]
+  # Trigger on pull request closure or manual workflow dispatch
   pull_request:
-    types: [ closed ]
-#  workflow_dispatch:
+    types: [closed]
+  workflow_dispatch:
 
 jobs:
   build:
+    # Run this job only if the pull request is merged
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
@@ -16,13 +16,17 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       STAGE: prod
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: "20.11.1"
-        cache: 'npm'
-    - name: Install dependencies
-      run: npm install
-    - name: Deploy
-      run: npm run deploy
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.11.1"
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy
+        run: npm run deploy
