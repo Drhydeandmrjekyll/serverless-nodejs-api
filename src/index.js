@@ -16,7 +16,7 @@ app.get("/", async (req, res, next) => {
   const [dbNowResult] = await sql`select now();`
   const delta = (dbNowResult.now.getTime()- now) / 1000
   return res.status(200).json({
-    message: "Hello from root!",
+    //https://github.com/Drhydeandmrjekyll/serverless-nodejs-api    
     delta: delta,
     stage: STAGE
   });
@@ -29,7 +29,7 @@ app.get("/path", (req, res, next) => {
 });
 
 app.get("/leads", async (req, res, next) => {
-  const results = await crud.getLead()
+  const results = await crud.listLeads()
   return res.status(200).json({
     results: results,
   });

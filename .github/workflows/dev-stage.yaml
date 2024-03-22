@@ -27,6 +27,9 @@ jobs:
       run: npm install
     - name: Install neonctl and tsx
       run: npm install -g neonctl tsx
+    - name: Check if dev branch exists
+      id: check_branch
+      run: neonctl branches info dev --api-key ${{ env.API_KEY }} || exit 0
     - name: Delete Previous Branch
       run: neonctl branches delete dev --api-key ${{ env.API_KEY }}
       continue-on-error: true
