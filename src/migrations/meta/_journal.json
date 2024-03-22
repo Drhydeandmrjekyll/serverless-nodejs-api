@@ -8,6 +8,20 @@
       "when": 1710746191689,
       "tag": "0000_parched_deathbird",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1711087421549,
+      "tag": "0001_thick_kid_colt",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711088674096,
+      "tag": "0002_moaning_lilith",
+      "breakpoints": true
     }
   ]
 }

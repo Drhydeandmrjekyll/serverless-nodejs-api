@@ -2,6 +2,7 @@ const { serial } = require("drizzle-orm/mysql-core");
 const { text, timestamp, pgTable } = require ("drizzle-orm/pg-core");
 
 const LeadTable = pgTable('leads', {
+  //name: text('name').notNull(),
   id: serial('id').primaryKey().notNull(),
   email: text('email').notNull(),
   description: text('description').default('This is my comment'),

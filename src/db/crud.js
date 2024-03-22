@@ -25,13 +25,28 @@ async function getLead(id) {
     const db = await clients.getDrizzleDbClient()
     //get id alone
     //const result = await db.select({id:schemas.LeadTable.id}).from(schemas.LeadTable).where(eq(schemas.LeadTable.id, id))
-    const results = await db.select().from(schemas.LeadTable).where(eq(schemas.LeadTable.id, id))
-    if (result.length === 1) {
+    //const result = await db.select().from(schemas.LeadTable).where(eq(schemas.LeadTable.id, id))
+    const result = await db.insert(schemas.LeadTable).values({
+      email: "Hello"
+  }).returning()
+  if (result.length === 1) {
       return result[0]
     }
     return null
 }
 
+async function makeLead(name) {
+  const db = await clients.getDrizzleDbClient()
+  //get id alone
+  //const result = await db.select({id:schemas.LeadTable.id}).from(schemas.LeadTable).where(eq(schemas.LeadTable.id, id))
+  const result = await db.select().from(schemas.LeadTable).where(eq(schemas.LeadTable.name, name))
+  if (result.length === 1) {
+    return result[0]
+  }
+  return null
+}
+
+module.exports.makeLead = makeLead
 module.exports.newLead = newLead
 module.exports.listLeads = listLeads 
 module.exports.getLead = getLead
