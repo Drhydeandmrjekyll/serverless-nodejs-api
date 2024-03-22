@@ -16,6 +16,7 @@ app.get("/", async (req, res, next) => {
   const [dbNowResult] = await sql`select now();`
   const delta = (dbNowResult.now.getTime()- now) / 1000
   return res.status(200).json({
+    //https://github.com/Drhydeandmrjekyll/serverless-nodejs-api    
     delta: delta,
     stage: STAGE
   });
