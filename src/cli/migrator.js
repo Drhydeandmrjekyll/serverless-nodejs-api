@@ -45,7 +45,7 @@ if (require.main === module) {
       console.log("Migrations done")
       process.exit(0)
   }).catch(err=>{
-      console.log('Migrations error')
+      console.log('Migrations error', err)
       process.exit(1)
   })
 }

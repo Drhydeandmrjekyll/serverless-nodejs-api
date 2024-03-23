@@ -10,16 +10,30 @@ const STAGE = process.env.STAGE || 'prod'
 app.use(express.json())
 
 app.get("/", async (req, res, next) => {
-  console.log(process.env.DEBUG)
-  const sql = await getDbClient()
-  const now = Date.now()
-  const [dbNowResult] = await sql`select now();`
-  const delta = (dbNowResult.now.getTime()- now) / 1000
-  return res.status(200).json({
-    //https://github.com/Drhydeandmrjekyll/serverless-nodejs-api    
-    delta: delta,
-    stage: STAGE
-  });
+  console.log(process.env.DEBUG);
+  const sql = await getDbClient();
+  const now = Date.now();
+  try {
+    const [dbNowResult] = await sql`select now() as current_time;`;
+
+    if (dbNowResult && dbNowResult.current_time) {
+      const dbNow = new Date(dbNowResult.current_time);
+      if (!isNaN(dbNow.getTime())) {
+        const delta = (dbNow.getTime() - now) / 1000;
+        return res.status(200).json({
+          delta: delta,
+          stage: STAGE
+        });
+      }
+    }
+    // If dbNowResult or dbNowResult.current_time is missing or invalid
+    throw new Error("Error fetching current time from the database.");
+  } catch (error) {
+    console.error("Error fetching current time from the database:", error);
+    return res.status(500).json({
+      error: "Error fetching current time from the database."
+    });
+  }
 });
 
 app.get("/path", (req, res, next) => {
@@ -29,7 +43,7 @@ app.get("/path", (req, res, next) => {
 });
 
 app.get("/leads", async (req, res, next) => {
-  const results = await crud.listLeads()
+  const results = await crud.getLeads()
   return res.status(200).json({
     results: results,
   });
@@ -55,7 +69,7 @@ app.post("/leads", async (req, res, next) => {
   const result = await crud.newLead(data)
   //Insert data to database
   return res.status(201).json({
-    results: result,
+    result: result,
   });
 });
 

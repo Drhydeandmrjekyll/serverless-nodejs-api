@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "leads" (
+CREATE TABLE IF NOT EXISTS "leads2" (
 	"name" text NOT NULL,
 	"id" serial PRIMARY KEY NOT NULL,
 	"email" text NOT NULL,

@@ -3,17 +3,22 @@ const clients = require('./clients')
 const schemas = require('./schemas')
 
 
-async function newLead({email}) {
-  const db = await clients.getDrizzleDbClient()
-  const result = await db.insert(schemas.LeadTable).values({
-      email: "Hello"
-  }).returning()
-  if (result.length === 1) {
-      return result[0]
+async function newLead ({ email }) {
+  try {
+    const db = await clients.getDrizzleDbClient();
+    const result = await db.insert(schemas.LeadTable).values({
+      email: email
+    }).returning();
+    if (result.length === 1) {
+      return result[0];
+    }
+    return result;
+  } catch (error) {
+    // Handle the error
+    console.error("Error creating new lead:", error);
+    throw error; // Propagate the error
   }
-  return result
 }
-
 
 async function listLeads(){
 const db = await clients.getDrizzleDbClient()
@@ -35,15 +40,24 @@ async function getLead(id) {
     return null
 }
 
-async function makeLead(name) {
-  const db = await clients.getDrizzleDbClient()
-  //get id alone
-  //const result = await db.select({id:schemas.LeadTable.id}).from(schemas.LeadTable).where(eq(schemas.LeadTable.id, id))
-  const result = await db.select().from(schemas.LeadTable).where(eq(schemas.LeadTable.name, name))
-  if (result.length === 1) {
-    return result[0]
+async function makeLead({name}) {
+  try {
+    if (!name) {
+      throw new Error("Name cannot be null or empty.");
+    }
+
+    const db = await clients.getDrizzleDbClient();
+    const result = await db.select().from(schemas.LeadTable).where(eq(schemas.LeadTable.name, name));
+
+    if (result.length === 1) {
+      return result[0];
+    } else {
+      return result;
+    }
+  } catch (error) {
+    console.error("Error in makeLead:", error);
+    return error;
   }
-  return null
 }
 
 module.exports.makeLead = makeLead
