@@ -41,7 +41,7 @@ jobs:
         npx tsx src/cli/putSecrets.js dev $DB_URL
     - name: Deploy dev stage
       run: |
-        npm run deploy-dev-stage
+        npm run deploy-info-dev-stage
     - name: Dev Stage Pull Request
       run: |
         export PR_BRANCH=$(git branch --show-current)
