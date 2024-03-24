@@ -8,6 +8,7 @@
     "deploy": "serverless deploy --stage prod --region us-east-2 ",
     "remove": "serverless remove --stage prod --region us-east-2",
     "generate": "drizzle-kit generate:pg --config=drizzle.config.js",
+    "info-dev-stage": "serverless info --stage prod --region us-east-2",
     "migrate": "tsx src/cli/migrator.js"
   },
   "dependencies": {
