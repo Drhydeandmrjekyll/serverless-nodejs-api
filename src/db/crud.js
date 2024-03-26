@@ -26,18 +26,18 @@ const db = await clients.getDrizzleDbClient()
   return results 
 }
 
-async function getLead(id) {
-    const db = await clients.getDrizzleDbClient()
-    //get id alone
-    //const result = await db.select({id:schemas.LeadTable.id}).from(schemas.LeadTable).where(eq(schemas.LeadTable.id, id))
-    //const result = await db.select().from(schemas.LeadTable).where(eq(schemas.LeadTable.id, id))
-    const result = await db.insert(schemas.LeadTable).values({
-      email: "Hello"
-  }).returning()
-  if (result.length === 1) {
-      return result[0]
-    }
-    return null
+async function getLead(page = 1, limit = 10) {
+  try {
+    const db = await clients.getDrizzleDbClient();
+    // Calculate offset based on pagination parameters
+    const offset = (page - 1) * limit;
+    // Retrieve leads with pagination
+    const results = await db.select().from(schemas.LeadTable).orderBy(desc(schemas.LeadTable.createdAt)).limit(limit).offset(offset);
+    return results;
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    throw error;
+  }
 }
 
 async function makeLead({name}) {

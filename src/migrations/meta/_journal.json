@@ -57,6 +57,20 @@
       "when": 1711208655121,
       "tag": "0007_rapid_dreaming_celestial",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1711390270163,
+      "tag": "0008_salty_may_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1711390856305,
+      "tag": "0009_robust_khan",
+      "breakpoints": true
     }
   ]
 }

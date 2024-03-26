@@ -5,10 +5,12 @@ const validators = require('./db/validators')
 const {getDbClient} = require('./db/clients')
 const app = express();
 
+
 const STAGE = process.env.STAGE || 'prod'
 
 app.use(express.json())
 
+// Modify root endpoint ("/") handler
 app.get("/", async (req, res, next) => {
   console.log(process.env.DEBUG);
   const sql = await getDbClient();
@@ -36,17 +38,38 @@ app.get("/", async (req, res, next) => {
   }
 });
 
+// Modify "/path" endpoint handler
 app.get("/path", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from path!",
-  });
+  try {
+    return res.status(200).json({
+      message: "Hello from path!",
+      stage: STAGE
+    });
+  } catch (error) {
+    console.error("Error handling request:", error);
+    return res.status(500).json({
+      error: "Internal Server Error."
+    });
+  }
 });
 
+// Modify "/leads" endpoint handler
 app.get("/leads", async (req, res, next) => {
-  const results = await crud.getLeads()
-  return res.status(200).json({
-    results: results,
-  });
+  try {
+    // Get pagination parameters from query string
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    // Retrieve leads with pagination
+    const results = await crud.getLead(page, limit);
+    return res.status(200).json({
+      results: results,
+    });
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    return res.status(500).json({
+      error: "Error fetching leads."
+    });
+  }
 });
 
 app.post("/leads", async (req, res, next) => {
