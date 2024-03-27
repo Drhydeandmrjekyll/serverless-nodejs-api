@@ -44,7 +44,7 @@ jobs:
         npm run deploy-dev-stage
     - name: Dev Stage Pull Request
       run: |
-        export PR_BRANCH=$(echo "${{ github.ref }}" | awk -F'/' '{print $NF}')
+        export PR_BRANCH=$(git branch --show-current)
         export DEFAULT_BRANCH=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
         echo "$PR_BRANCH and $DEFAULT_BRANCH"
         export DEV_STAGE_INFO=$(npm run info-dev-stage)
