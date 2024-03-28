@@ -8,10 +8,12 @@ const app = express();
 
 const STAGE = process.env.STAGE || 'prod'
 
+// Parse JSON bodies
 app.use(express.json())
 
 // Modify root endpoint ("/") handler
 app.get("/", async (req, res, next) => {
+  // Log environment DEBUG variable
   console.log(process.env.DEBUG);
   const sql = await getDbClient();
   const now = Date.now();
@@ -52,8 +54,30 @@ app.get("/path", (req, res, next) => {
     });
   }
 });
+//not be implemented once done to avoid crushing the project
+/*
+app.get("leads/:id", async (req, res, next) =>{
+  try{
+    //Extract the ID parameter from the request URL
+    const leadId = req.params.id;
 
-// Modify "/leads" endpoint handler
+    //Query the database to find the lead with the specified ID
+    const lead = await crud.getLeadById(leadId);
+
+    // Check if the lead exists
+    if (!lead) {
+      return res.status(404).json({ error: "lead not found"});
+    }
+
+    // Return the lead object if found
+    return res.status(200).json({ lead: lead});
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    return res.status(500).json({error: "Error fetching lead"});
+  }
+})
+*/
+// "/leads" endpoint handler
 app.get("/leads", async (req, res, next) => {
   try {
     // Get pagination parameters from query string
@@ -61,6 +85,7 @@ app.get("/leads", async (req, res, next) => {
     const limit = req.query.limit || 10;
     // Retrieve leads with pagination
     const results = await crud.getLead(page, limit);
+    // Return success response
     return res.status(200).json({
       results: results,
     });
@@ -88,7 +113,7 @@ app.post("/leads", async (req, res, next) => {
     });
   }
 
-
+  // Add new lead to the database
   const result = await crud.newLead(data)
   //Insert data to database
   return res.status(201).json({

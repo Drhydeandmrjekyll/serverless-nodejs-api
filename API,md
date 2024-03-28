@@ -1,0 +1,91 @@
+Serverless Node.js API Documentation
+This documentation provides information on how to interact with the Serverless Node.js API endpoints. Below are the available endpoints along with their descriptions and sample requests.
+
+Base URL
+arduino
+Copy code
+http://localhost:3000
+Endpoints
+1. Get Current Time Delta
+Description: Retrieves the difference in seconds between the current server time and the time fetched from the database.
+
+URL: /
+
+Method: GET
+
+Response:
+
+json
+Copy code
+{
+    "delta": 1532,
+    "stage": "dev"
+}
+2. Hello from Path
+Description: A simple endpoint that returns a greeting message.
+
+URL: /path
+
+Method: GET
+
+Response:
+
+json
+Copy code
+{
+    "message": "Hello from path!"
+}
+3. Get Leads
+Description: Retrieves a list of leads from the database.
+
+URL: /leads
+
+Method: GET
+
+Response:
+
+json
+Copy code
+{
+    "results": [
+        {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com",
+            "description": "Interested in product XYZ"
+        },
+        {
+            "id": 2,
+            "name": "Jane Smith",
+            "email": "jane@example.com",
+            "description": "Enquiry about service ABC"
+        },
+        ...
+    ]
+}
+4. Create New Lead
+Description: Creates a new lead in the database.
+
+URL: /leads
+
+Method: POST
+
+Request Body:
+
+json
+Copy code
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "description": "Interested in product XYZ"
+}
+Response:
+
+json
+Copy code
+{
+    "id": 3,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "description": "Interested in product XYZ"
+}
