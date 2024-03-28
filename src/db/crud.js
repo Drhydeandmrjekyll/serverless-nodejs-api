@@ -7,7 +7,7 @@ async function newLead ({ email }) {
   try {
     const db = await clients.getDrizzleDbClient();
     const result = await db.insert(schemas.LeadTable).values({
-      email: email
+      email: "Nba@abn.com"
     }).returning();
     if (result.length === 1) {
       return result[0];

@@ -46,6 +46,24 @@ endpoint: ANY - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com
 functions:
   api: aws-node-express-api-project-dev-api (766 kB)
 ```
+In my case:  
+
+Run npm run deploy-dev-stage
+
+> serverless-nodejs-api@1.0.0 deploy-dev-stage
+> serverless deploy --stage dev --region us-east-2
+
+DOTENV: Could not find .env file.
+
+Deploying serverless-nodejs-api to stage dev (us-east-2)
+Warning: Function (api) timeout setting (200) is greater than maximum allowed timeout for HTTP API endpoint (30s). This may introduce a situation where endpoint times out for a successful lambda invocation.
+
+✔ Service deployed to stack serverless-nodejs-api-dev (38s)
+
+endpoint: ANY - https://n8rcpdnyui.execute-api.us-east-2.amazonaws.com
+functions:
+  api: serverless-nodejs-api-dev-api (41 MB)
+
 
 _Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [`httpApi` event docs](https://www.serverless.com/framework/docs/providers/aws/events/http-api/).
 
@@ -60,13 +78,13 @@ curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
 Which should result in the following response:
 
 ```
-{"message":"Hello from root!"}
+{"delta":0.006,"stage":"dev"}
 ```
 
-Calling the `/hello` path with:
+Calling the `/path` path with:
 
 ```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/hello
+curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/path
 ```
 
 Should result in the following response:

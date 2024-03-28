@@ -1,0 +1,1 @@
+ALTER TABLE "leads" ALTER COLUMN "name" SET DEFAULT 'Mr Neon';
